@@ -46,7 +46,9 @@ php artisan upgrade:status
 
 ## Writing Upgrades
 
-Upgrades are similar to Laravel migrations but for any type of data or code changes. Here's an example:
+Upgrades are similar to Laravel migrations but for any type of data or code changes. All upgrades are automatically wrapped in a database transaction - if any part of the upgrade fails, all changes will be rolled back.
+
+Here's an example:
 
 ```php
 <?php
@@ -58,10 +60,11 @@ use App\Models\User;
 
 class AddDefaultSettingsToUsers extends Upgrade
 {
-    public function up(): void
+    protected function up(): void
     {
         $this->info('Adding default settings to users...');
         
+        // If any part of this fails, all changes will be rolled back automatically
         User::whereNull('settings')
             ->chunk(100, function ($users) {
                 foreach ($users as $user) {
@@ -99,7 +102,7 @@ if ($this->confirm('Continue?')) {
 ## Best Practices
 
 1. Make upgrades atomic and idempotent
-2. Use transactions where appropriate
+2. Transactions are handled automatically - all changes in an upgrade will be rolled back if any part fails
 3. Add descriptive comments and logging
 4. Handle errors gracefully
 5. Use chunking for large data operations

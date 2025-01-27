@@ -51,22 +51,21 @@ class RunUpgradeCommand extends Command
         $this->info("Running upgrade: {$file}");
 
         try {
-            DB::beginTransaction();
-
             $class = $this->getUpgradeClass($file);
             $upgrade = new $class($this);
-            $upgrade->up();
+            
+            // Execute the upgrade (which is now automatically wrapped in a transaction)
+            $upgrade->execute();
 
+            // Record the successful upgrade
             Upgrade::create([
                 'name' => $file,
                 'batch' => $batch,
                 'executed_at' => now(),
             ]);
 
-            DB::commit();
             $this->info("Completed upgrade: {$file}");
         } catch (\Exception $e) {
-            DB::rollBack();
             $this->error("Failed to run upgrade {$file}: " . $e->getMessage());
             throw $e;
         }
