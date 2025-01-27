@@ -1,0 +1,179 @@
+---
+description: Use for the first time creating this package code.
+globs: 
+---
+# Laravel Upgrade System Documentation
+
+A system to manage data/code upgrades during deployments, similar to database migrations.
+
+## Directory Structure
+
+/upgrades/ # Root directory for upgrade files
+├── YYYY_MM_DD_HHMMSS_upgrade_name.php # Upgrade files
+app/
+├── Console/Commands/ # Command files
+│ ├── MakeUpgradeCommand.php
+│ ├── RunUpgradeCommand.php
+│ └── UpgradeStatusCommand.php
+├── Models/
+│ └── Upgrade.php # Model for tracking executed upgrades
+└── Support/
+└── Upgrade.php # Base upgrade class
+
+
+## Available Commands
+
+### 1. Create an Upgrade
+```bash
+php artisan upgrade:make
+# or
+php artisan make:upgrade
+```
+This will prompt for a description and create a timestamped upgrade file.
+
+### 2. Run Upgrades
+```bash
+php artisan upgrade:run           # Run with confirmations
+php artisan upgrade:run -y        # Run without warnings/confirmations
+```
+
+### 3. Check Status
+```bash
+php artisan upgrade:status        # View all upgrades and their status
+```
+
+## Creating Upgrades
+
+When you run `upgrade:make`, you'll be prompted for a description. The system will:
+1. Convert the description to snake_case for the filename
+2. Convert it to StudlyCase for the class name
+3. Create a timestamped file in the `/upgrades` directory
+
+Example upgrade file:
+```php
+<?php
+
+namespace Upgrades;
+
+use App\Support\Upgrade;
+
+/**
+ * Your upgrade description
+ */
+class YourUpgradeName extends Upgrade
+{
+    public function up(): void
+    {
+        // Your upgrade logic here
+    }
+}
+```
+
+## Available Methods in Upgrade Files
+
+Output Methods:
+```php
+$this->info('Information message');     // Green text
+$this->error('Error message');          // Red text
+$this->warn('Warning message');         // Yellow text
+$this->comment('Comment message');      // Yellow text
+$this->line('Plain text');             // Plain text
+$this->newLine(1);                     // Add blank lines
+
+// Confirmations (skipped with -y flag)
+if ($this->confirm('Continue?')) {
+    // User confirmed
+}
+```
+
+## Database Table
+
+The `upgrades` table tracks executed upgrades:
+```php
+Schema::create('upgrades', function (Blueprint $table) {
+    $table->id();
+    $table->string('name')->unique();
+    $table->integer('batch');
+    $table->timestamp('executed_at');
+    $table->timestamps();
+});
+```
+
+## Composer Configuration
+
+Add to composer.json:
+```json
+"autoload": {
+    "psr-4": {
+        "App\\": "app/",
+        "Upgrades\\": "upgrades/",
+    }
+}
+```
+
+## Best Practices
+
+1. Make upgrades atomic and idempotent
+2. Use transactions where appropriate
+3. Add descriptive comments and logging
+4. Handle errors gracefully
+5. Use chunking for large data operations
+6. Add confirmations for destructive operations
+
+## Example Upgrade
+
+```php
+<?php
+
+namespace Upgrades;
+
+use App\Support\Upgrade;
+use App\Models\User;
+
+class AddDefaultSettingsToUsers extends Upgrade
+{
+    public function up(): void
+    {
+        $this->info('Adding default settings to users...');
+        
+        User::whereNull('settings')
+            ->chunk(100, function ($users) {
+                foreach ($users as $user) {
+                    $this->line("Processing user: {$user->email}");
+                    
+                    if ($this->confirm("Update user {$user->email}?")) {
+                        $user->settings = ['theme' => 'light'];
+                        $user->save();
+                    }
+                }
+            });
+
+        $this->info('Default settings added successfully!');
+    }
+}
+```
+
+## Error Handling
+
+The system:
+1. Uses database transactions
+2. Logs errors with stack traces
+3. Rolls back on failure
+4. Provides clear error messages
+5. Maintains database integrity
+
+## Command Registration
+
+Register commands in `AppServiceProvider`:
+```php
+public function boot(): void
+{
+    if ($this->app->runningInConsole()) {
+        $this->commands([
+            \App\Console\Commands\MakeUpgradeCommand::class,
+            \App\Console\Commands\RunUpgradeCommand::class,
+            \App\Console\Commands\UpgradeStatusCommand::class,
+        ]);
+    }
+}
+```

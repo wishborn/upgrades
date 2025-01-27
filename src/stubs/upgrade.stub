@@ -1,0 +1,13 @@
+<?php
+
+namespace Upgrades;
+
+use Wishborn\Upgrades\Support\Upgrade;
+
+class DummyClass extends Upgrade
+{
+    public function up(): void
+    {
+        // Your upgrade logic here
+    }
+} 

@@ -1,0 +1,10 @@
+---
+description: When creating and updating user interfaces and making design style choices
+globs: 
+---
+
+# Ux Rules
+
+- Use Livewire when creating interactive components.
+- Use AlpineJS for basic ui functions like menus, but use the Livewire functions when backend data is needed.
+- Use Tailwind CSS and prioitize brand colors when styling the UI.

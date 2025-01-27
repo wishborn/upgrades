@@ -1,0 +1,36 @@
+---
+description: When updating or creating code on this project
+globs: 
+---
+
+# General development rule
+- When creating views, controllers, models or any file needed to make this project work - make sure you indentify next steps to take if you are refencing routes, files or other components that are not being created in the current request and then ask the user if you should go ahead and create what is needed.
+- Follow Laravel 11 syntax and best practices, ensuring full compliance with its latest features and structure. Pay close attention to key differences from Laravel 9 and 10, including:
+
+# Application Structure:
+
+- Use the unified AppServiceProvider instead of multiple service providers.
+- Manage routing, middleware, and exception handling via the centralized bootstrap/app.php file.
+
+# Middleware:
+- Default middleware classes are now integrated into the framework; customize via bootstrap/app.php.
+
+
+# Routing:
+- Exclude api.php and channels.php route files unless explicitly needed; add them using Artisan commands.
+
+# Task Scheduling:
+- Schedule tasks directly within routes/console.php using the Schedule facade, replacing the console kernel approach.
+
+# Model Attribute Casting:
+- Use the new casts() method in models to define attribute casting instead of the $casts property.
+
+# Rate Limiting:
+- Implement per-second rate limiting for more granular request control.
+
+# PHP Version:
+- Ensure compatibility with PHP 8.2 or higher, as PHP 8.1 is no longer supported.
+
+# Testing:
+- Leverage improved queue interaction testing features for more robust test coverage.
+- Adhere strictly to these guidelines to ensure Laravel 11 compatibility and optimal code performance.

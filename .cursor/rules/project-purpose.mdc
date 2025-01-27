@@ -1,0 +1,11 @@
+---
+description: When making changes to the elements of this project or suggesting new features.
+globs: 
+---
+
+# Project Purpose
+
+- The wishborn/upgrades package is a Laravel 9.* package that provides a simple way to process deployments upgrades in apps.
+- This package provides a functionality similiar to migrations. A user can create an ugrade script that only runs if it hasn't been processed 
+- the package provides artisan commands for making a new upgrade, running it and checking the status of upgrades.
+- When an upgrade is running it automatically creates a database and rolls back if the upgrade failed.
