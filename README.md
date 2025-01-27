@@ -12,6 +12,22 @@ composer require wishborn/upgrades
 
 The package will automatically register its service provider.
 
+After installation, you should run the migrations to create the required database table:
+
+```bash
+php artisan migrate
+```
+
+If the migration doesn't run automatically, you can force publish and run it:
+
+```bash
+# Publish the migrations
+php artisan vendor:publish --tag=wishborn-upgrades-migrations
+
+# Run migrations
+php artisan migrate
+```
+
 ## Usage
 
 ### Creating an Upgrade
