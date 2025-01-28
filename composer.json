@@ -1,7 +1,7 @@
 {
     "name": "wishborn/upgrades",
     "description": "A system to manage data/code upgrades during deployments, similar to database migrations",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "require": {
         "php": "^8.1",
         "laravel/framework": "^9.0|^10.0",
