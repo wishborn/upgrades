@@ -10,4 +10,9 @@ class DummyClass extends Upgrade
     {
         // Your upgrade logic here
     }
+
+    public function down(): void
+    {
+        // Your rollback logic here
+    }
 } 

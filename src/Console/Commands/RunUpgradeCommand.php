@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class RunUpgradeCommand extends Command
 {
-    protected $signature = 'wish:run-upgrade {--y|yes : Skip confirmations}';
+    protected $signature = 'wish:upgrade {--y|yes : Skip confirmations}';
     protected $description = 'Run pending upgrades';
 
     public function handle(): void

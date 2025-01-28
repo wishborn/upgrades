@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Wishborn\Upgrades\Console\Commands\MakeUpgradeCommand;
 use Wishborn\Upgrades\Console\Commands\RunUpgradeCommand;
 use Wishborn\Upgrades\Console\Commands\UpgradeStatusCommand;
+use Wishborn\Upgrades\Console\Commands\RollbackUpgradeCommand;
 
 class UpgradeServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,7 @@ class UpgradeServiceProvider extends ServiceProvider
                 MakeUpgradeCommand::class,
                 RunUpgradeCommand::class,
                 UpgradeStatusCommand::class,
+                RollbackUpgradeCommand::class,
             ]);
 
             $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
