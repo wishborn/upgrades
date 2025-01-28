@@ -33,7 +33,11 @@ php artisan migrate
 ### Creating an Upgrade
 
 ```bash
-php artisan upgrade:make "Add user settings"
+# Using the main command
+php artisan wish:make-upgrade "Add user settings"
+
+# Or using the Laravel-style alias
+php artisan make:wish-upgrade "Add user settings"
 ```
 
 This will create a new upgrade file in the `upgrades` directory with a timestamp prefix.
@@ -43,13 +47,13 @@ This will create a new upgrade file in the `upgrades` directory with a timestamp
 To run all pending upgrades:
 
 ```bash
-php artisan upgrade:run
+php artisan wish:run-upgrade
 ```
 
 To skip confirmations:
 
 ```bash
-php artisan upgrade:run -y
+php artisan wish:run-upgrade -y
 ```
 
 ### Checking Status
@@ -57,7 +61,7 @@ php artisan upgrade:run -y
 To see the status of all upgrades:
 
 ```bash
-php artisan upgrade:status
+php artisan wish:upgrade-status
 ```
 
 ## Writing Upgrades

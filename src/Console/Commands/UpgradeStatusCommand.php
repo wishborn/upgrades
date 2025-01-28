@@ -8,7 +8,7 @@ use Wishborn\Upgrades\Models\Upgrade;
 
 class UpgradeStatusCommand extends Command
 {
-    protected $signature = 'upgrade:status';
+    protected $signature = 'wish:upgrade-status';
     protected $description = 'Show the status of all upgrades';
 
     public function handle(): void

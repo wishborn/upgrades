@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\File;
 
 class MakeUpgradeCommand extends Command
 {
-    protected $signature = 'upgrade:make {name? : The name of the upgrade}';
+    protected $signature = 'wish:make-upgrade {name? : The name of the upgrade}';
     protected $description = 'Create a new upgrade file';
+
+    protected $aliases = ['make:wish-upgrade'];
 
     public function handle(): void
     {
