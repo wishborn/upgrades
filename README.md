@@ -69,7 +69,7 @@ Here's an example:
 ```php
 <?php
 
-namespace Upgrades;
+namespace Wishborn\Upgrades;
 
 use Wishborn\Upgrades\Support\Upgrade;
 use App\Models\User;

@@ -79,6 +79,6 @@ class RunUpgradeCommand extends Command
         $className = implode('_', $parts);
         
         require_once base_path('upgrades/' . $file);
-        return '\\Upgrades\\' . str_replace(' ', '', ucwords(str_replace('_', ' ', $className)));
+        return '\\Wishborn\\Upgrades\\' . str_replace(' ', '', ucwords(str_replace('_', ' ', $className)));
     }
 } 
