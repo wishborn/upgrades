@@ -37,7 +37,7 @@ php artisan migrate
 php artisan wish:make-upgrade "Add user settings"
 
 # Or using the Laravel-style alias
-php artisan make:wish-upgrade "Add user settings"
+php artisan make:wish "Add user settings"
 ```
 
 This will create a new upgrade file in the `upgrades` directory with a timestamp prefix.
@@ -136,28 +136,24 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 ### Package Development Testing
 
-To run the package tests:
+You can run tests using either PHPUnit or Pest:
 
 ```bash
+# Using PHPUnit
 composer test
-```
-
-To run tests with coverage report:
-
-```bash
 composer test-coverage
+
+# Using Pest
+composer test:pest
+composer test:pest-coverage
 ```
 
 ### Testing in Your Project
 
-When using this package in your project, you can test your upgrades by:
+When using this package in your project, you can test your upgrades using either PHPUnit or Pest:
 
-1. Creating a test upgrade:
-```bash
-php artisan make:upgrade TestUpgrade
-```
+#### Using PHPUnit
 
-2. Writing tests for your upgrade:
 ```php
 use Tests\TestCase;
 use Wishborn\Upgrades\Models\Upgrade;
@@ -167,6 +163,8 @@ class TestUpgradeTest extends TestCase
     /** @test */
     public function it_can_run_the_upgrade()
     {
+        $this->artisan('make:wish', ['name' => 'TestUpgrade']);
+        
         $this->artisan('upgrade:run')
             ->expectsOutput('Running upgrades...')
             ->assertExitCode(0);
@@ -177,7 +175,28 @@ class TestUpgradeTest extends TestCase
 }
 ```
 
-3. Running your tests:
+#### Using Pest
+
+```php
+use Wishborn\Upgrades\Models\Upgrade;
+
+test('upgrade can be run successfully', function () {
+    $this->artisan('make:wish', ['name' => 'TestUpgrade']);
+    
+    $this->artisan('upgrade:run')
+        ->expectsOutput('Running upgrades...')
+        ->assertExitCode(0);
+
+    // Assert your upgrade changes here
+    expect(true)->toBeTrue();
+});
+```
+
+To run your tests:
 ```bash
+# Using PHPUnit
 php artisan test
+
+# Using Pest
+./vendor/bin/pest
 ``` 

@@ -32,7 +32,7 @@ class MakeUpgradeCommandTest extends TestCase
     {
         $upgradeName = 'TestUpgrade';
         
-        $this->artisan('make:upgrade', ['name' => $upgradeName])
+        $this->artisan('make:wish', ['name' => $upgradeName])
             ->expectsOutput('Upgrade created successfully.')
             ->assertExitCode(0);
 
@@ -46,7 +46,7 @@ class MakeUpgradeCommandTest extends TestCase
     /** @test */
     public function it_fails_with_invalid_upgrade_name()
     {
-        $this->artisan('make:upgrade', ['name' => ''])
+        $this->artisan('make:wish', ['name' => ''])
             ->expectsOutput('The upgrade name cannot be empty.')
             ->assertExitCode(1);
     }
