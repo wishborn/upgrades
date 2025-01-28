@@ -130,4 +130,54 @@ if ($this->confirm('Continue?')) {
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information. 
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+## Testing
+
+### Package Development Testing
+
+To run the package tests:
+
+```bash
+composer test
+```
+
+To run tests with coverage report:
+
+```bash
+composer test-coverage
+```
+
+### Testing in Your Project
+
+When using this package in your project, you can test your upgrades by:
+
+1. Creating a test upgrade:
+```bash
+php artisan make:upgrade TestUpgrade
+```
+
+2. Writing tests for your upgrade:
+```php
+use Tests\TestCase;
+use Wishborn\Upgrades\Models\Upgrade;
+
+class TestUpgradeTest extends TestCase
+{
+    /** @test */
+    public function it_can_run_the_upgrade()
+    {
+        $this->artisan('upgrade:run')
+            ->expectsOutput('Running upgrades...')
+            ->assertExitCode(0);
+
+        // Assert your upgrade changes here
+        $this->assertTrue(true);
+    }
+}
+```
+
+3. Running your tests:
+```bash
+php artisan test
+``` 
